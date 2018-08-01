@@ -1,0 +1,74 @@
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+type Query {
+  Department_GET_BY_NAME(name: [String]): [Department]
+  GetLinkedDataFragment(
+    subject: [Content]
+    predicate: [Content]
+    object: [Content]
+  ): [Content]
+}
+
+type Mutation {
+  Department: [Department]
+}
+
+type Subscription {
+  Department_SUB_BY_NAME(name: [String]): [Department]
+}
+
+# Hypergraphql context
+type __Context {
+  # types
+  Announcement: _ @href(iri: "http://schema.org/Article")
+  Content: _ @href(iri: "http://ec-europa.eu/ontologies/Content")
+  Eurovoc: _ @href(iri: "http://ec-europa.eu/ontologies/Eurovoc")
+  Event: _ @href(iri: "http://schema.org/Event")
+  Department: _ @href(iri: "http://schema.org/GovernmentOrganization")
+
+  # properties
+  comment: _ @href(iri: "http://www.w3.org/2000/01/rdf-schema#comment")
+  label: _ @href(iri: "http://www.w3.org/2000/01/rdf-schema#label")
+}
+
+interface Content {
+  # properties
+  iri: String! @service(id: "local-pod-sparql")
+  label: [String] @service(id: "local-pod-sparql")
+  uuid: String! @service(id: "local-pod-sparql")
+
+  # edges
+  is_tagged: [Content] @service(id: "local-pod-sparq")
+  is_related: [Content] @service(id: "local-pod-sparql")
+}
+
+type Department implements Content {
+  # properties
+  comment: [String] @service(id: "local-pod-sparql")
+  description: [String] @service(id: "local-pod-sparql")
+  label: [String] @service(id: "local-pod-sparql")
+  postDate: String! @service(id: "local-pod-sparqll")
+  title: String! @service(id: "local-pod-sparqll")
+  uuid: String! @service(id: "local-pod-sparql")
+  iri: String! @service(id: "local-pod-sparql")
+
+  # edges
+  is_tagged: [Eurovoc] @service(id: "local-pod-sparq")
+  is_related: [Content] @service(id: "local-pod-sparql")
+}
+
+type Eurovoc implements Content {
+  # properties
+  iri: String! @service(id: "eurovoc-sparql")
+  label: [String] @service(id: "eurovoc-sparql")
+  name: String! @service(id: "eurovoc-sparql")
+  uuid: String! @service(id: "eurovoc-sparql")
+
+  # edges
+  is_tagged: [Content] @service(id: "local-pod-sparql")
+  is_related: [Content] @service(id: "local-pod-sparql")
+}

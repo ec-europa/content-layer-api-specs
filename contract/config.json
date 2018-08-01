@@ -1,0 +1,33 @@
+{
+  "name": "content-layer-hgql",
+  "schema": "schema.gql",
+  "server": {
+    "port": 8081,
+    "graphql": "/graphql",
+    "graphiql": "/graphiql"
+  },
+  "services": [
+    {
+      "id": "content-layer-sparql",
+      "type": "SPARQLEndpointService",
+      "url": "http://ec.europa.eu/content-layer/sparql/",
+      "graph": "http://ec.europa.eu/content-layer",
+      "user": "",
+      "password": ""
+    },
+    {
+      "id": "dbpedia-sparql",
+      "type": "SPARQLEndpointService",
+      "url": "http://dbpedia.org/sparql/",
+      "graph": "http://dbpedia.org",
+      "user": "",
+      "password": ""
+    },
+    {
+      "id": "fao-local",
+      "type": "LocalModelSPARQLService",
+      "filepath": "fao.ttl",
+      "filetype": "TTL"
+    }
+  ]
+}
