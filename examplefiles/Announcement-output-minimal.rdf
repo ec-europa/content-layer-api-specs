@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE rdf:RDF [
+  <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+  <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema#'>
+  <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema#'>
+]>
+<rdf:RDF xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns="http://example.org/data/announcements.csv#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <rdf:Description rdf:about="https://ec.europa.eu/data/announcements#row=1">
+    <ns0:Announcement_type xmlns:ns0="https://ec.europa.eu/data/announcements#">Press release</ns0:Announcement_type>
+    <ns1:Body xmlns:ns1="https://ec.europa.eu/data/announcements#">Jean-Claude Juncker, President of the European Commission and Donald Tusk, President of the European Council, represented the European Union at the Summit. Japan was represented by its Prime Minister, Shinzo Abe. The European Commission Vice-President for Jobs, Growth, Investment and Competitiveness, Jyrki Katainen also participated. EU Leaders offered their condolences to the people of Japan following the floods and landslides in Western Japan, and offered their support to Prime Minister to help in any way.</ns1:Body>
+    <ns2:Description xmlns:ns2="https://ec.europa.eu/data/announcements#">The 25th EU-Japan Summit took place on 17 July in Tokyo. At the summit, leaders signed two landmark agreements, the Strategic Partnership Agreement and the Economic Partnership Agreement, which will significantly boost bilateral relations.</ns2:Description>
+    <ns3:First_published_on rdf:datatype="&xsd;dateTime" xmlns:ns3="https://ec.europa.eu/data/announcements#">2018-07-17T00:00:00.0000000+00:00</ns3:First_published_on>
+    <ns4:ID rdf:datatype="&xsd;integer" xmlns:ns4="https://ec.europa.eu/data/announcements#">101</ns4:ID>
+    <ns5:Introduction xmlns:ns5="https://ec.europa.eu/data/announcements#">The 25th EU-Japan Summit took place on 17 July in Tokyo. At the summit, leaders signed two landmark agreements, the Strategic Partnership Agreement and the Economic Partnership Agreement, which will significantly boost bilateral relations.</ns5:Introduction>
+    <ns6:Location xmlns:ns6="https://ec.europa.eu/data/announcements#">Brussels</ns6:Location>
+    <ns7:Related_content xmlns:ns7="https://ec.europa.eu/data/announcements#">http://www.consilium.europa.eu/en/meetings/international-summit/2018/07/17/japan/, https://eeas.europa.eu/headquarters/headquarters-homepage/48463/eu-japan-relations_en</ns7:Related_content>
+    <ns8:Responsible_department rdf:resource="https://schema.org/authorEuropean_Commission" xmlns:ns8="https://ec.europa.eu/data/announcements#" />
+    <ns9:Subject_from_Digital_Europa_Thesaurus rdf:resource="http://publications.europa.eu/resource/authority/corporate-body/RTD" xmlns:ns9="https://ec.europa.eu/data/announcements#" />
+    <ns10:Title xmlns:ns10="https://ec.europa.eu/data/announcements#">EU-Japan Summit: a landmark moment for trade and cooperation</ns10:Title>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://ec.europa.eu/data/announcements#row=2">
+    <ns11:Announcement_type xmlns:ns11="https://ec.europa.eu/data/announcements#">statement</ns11:Announcement_type>
+    <ns12:Body xmlns:ns12="https://ec.europa.eu/data/announcements#">Article Body 1</ns12:Body>
+    <ns13:Description xmlns:ns13="https://ec.europa.eu/data/announcements#">statement Description</ns13:Description>
+    <ns14:First_published_on rdf:datatype="&xsd;dateTime" xmlns:ns14="https://ec.europa.eu/data/announcements#">2018-08-17T00:00:00.0000000+00:00</ns14:First_published_on>
+    <ns15:ID rdf:datatype="&xsd;integer" xmlns:ns15="https://ec.europa.eu/data/announcements#">102</ns15:ID>
+    <ns16:Introduction xmlns:ns16="https://ec.europa.eu/data/announcements#">Introduction text 1</ns16:Introduction>
+    <ns17:Location xmlns:ns17="https://ec.europa.eu/data/announcements#">Location 1</ns17:Location>
+    <ns18:Related_content xmlns:ns18="https://ec.europa.eu/data/announcements#">link1, link 2, link 3</ns18:Related_content>
+    <ns19:Responsible_department rdf:resource="https://schema.org/authorJRC" xmlns:ns19="https://ec.europa.eu/data/announcements#" />
+    <ns20:Subject_from_Digital_Europa_Thesaurus rdf:resource="http://publications.europa.eu/resource/authority/corporate-body/RTD" xmlns:ns20="https://ec.europa.eu/data/announcements#" />
+    <ns21:Title xmlns:ns21="https://ec.europa.eu/data/announcements#">Title 1</ns21:Title>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://ec.europa.eu/data/announcements#row=3">
+    <ns22:Announcement_type xmlns:ns22="https://ec.europa.eu/data/announcements#">Speech</ns22:Announcement_type>
+    <ns23:Body xmlns:ns23="https://ec.europa.eu/data/announcements#">Article body 2</ns23:Body>
+    <ns24:Description xmlns:ns24="https://ec.europa.eu/data/announcements#">Speech De3scription</ns24:Description>
+    <ns25:First_published_on rdf:datatype="&xsd;dateTime" xmlns:ns25="https://ec.europa.eu/data/announcements#">2018-09-17T00:00:00.0000000+00:00</ns25:First_published_on>
+    <ns26:ID rdf:datatype="&xsd;integer" xmlns:ns26="https://ec.europa.eu/data/announcements#">103</ns26:ID>
+    <ns27:Introduction xmlns:ns27="https://ec.europa.eu/data/announcements#">Introduction text 2</ns27:Introduction>
+    <ns28:Location xmlns:ns28="https://ec.europa.eu/data/announcements#">Location 2</ns28:Location>
+    <ns29:Related_content xmlns:ns29="https://ec.europa.eu/data/announcements#">link 4, link 5, link6</ns29:Related_content>
+    <ns30:Responsible_department rdf:resource="https://schema.org/authorRTD" xmlns:ns30="https://ec.europa.eu/data/announcements#" />
+    <ns31:Subject_from_Digital_Europa_Thesaurus rdf:resource="http://publications.europa.eu/resource/authority/corporate-body/RTD" xmlns:ns31="https://ec.europa.eu/data/announcements#" />
+    <ns32:Title xmlns:ns32="https://ec.europa.eu/data/announcements#">Title 2</ns32:Title>
+  </rdf:Description>
+</rdf:RDF>

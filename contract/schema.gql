@@ -13,12 +13,33 @@ type Query {
   ): [Content]
 }
 
+type Query {
+  Announcement_GET_BY_TYPE(type: [String]): [Announcement]
+  GetLinkedDataFragment(
+    subject: [Content]
+    predicate: [Content]
+    object: [Content]
+  ): [Content]
+}
+
+type Query {
+  Announcement_GET_BY_TITLE(title: [String]): [Announcement]
+  GetLinkedDataFragment(
+    subject: [Content]
+    predicate: [Content]
+    object: [Content]
+  ): [Content]
+}
+
 type Mutation {
   Department: [Department]
+  Announcement: [Announcement]
 }
 
 type Subscription {
   Department_SUB_BY_NAME(name: [String]): [Department]
+  Announcement_SUB_BY_TYPE(type: [String]): [Announcement]
+  Announcement_SUB_BY_TITLE(title: [String]): [Announcement]
 }
 
 # Hypergraphql context
@@ -35,6 +56,7 @@ type __Context {
   label: _ @href(iri: "http://www.w3.org/2000/01/rdf-schema#label")
 }
 
+# needs refactor for Announcements
 interface Content {
   # properties
   iri: String! @service(id: "local-pod-sparql")
@@ -46,13 +68,34 @@ interface Content {
   is_related: [Content] @service(id: "local-pod-sparql")
 }
 
+type Announcement implements Content {
+  # properties
+  Title: String! @service(id: "local-pod-sparql")
+  Announcement_type: String! @service(id: "local-pod-sparql")
+  Body: String! @service(id: "local-pod-sparql")
+  Description: String! @service(id: "local-pod-sparql")
+  First_published_on: String! @service(id: "local-pod-sparql") # or date
+  ID: ID! @service(id:"local-pod-sparql") # or Int
+  Introduction: String! @service(id: "local-pod-sparql")
+  Location: String! @service(id: "local-pod-sparql")
+  Related_content: String! @service(id: "local-pod-sparql")
+  # refers rdf:resource="https://schema.org/authorJRC" non-existent
+  Responsible_department: Department @service(id: "local-pod-sparql")
+  # refers to rdf:resource="http://publications.europa.eu/resource/authority/corporate-body/RTD" non-existent
+  Subject_from_Digital_Europa_Thesaurus: String! @service(id: "local-pod-sparql")
+ 
+  # edges
+  is_tagged: [Eurovoc] @service(id: "local-pod-sparq")
+  is_related: [Content] @service(id: "local-pod-sparql")
+}
+
 type Department implements Content {
   # properties
   comment: [String] @service(id: "local-pod-sparql")
   description: [String] @service(id: "local-pod-sparql")
   label: [String] @service(id: "local-pod-sparql")
-  postDate: String! @service(id: "local-pod-sparqll")
-  title: String! @service(id: "local-pod-sparqll")
+  postDate: String! @service(id: "local-pod-sparql")
+  title: String! @service(id: "local-pod-sparql")
   uuid: String! @service(id: "local-pod-sparql")
   iri: String! @service(id: "local-pod-sparql")
 
