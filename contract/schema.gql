@@ -11,11 +11,13 @@ type Query {
   Event_GET_BY_COMMISSIONER(Subject: String, Event_date: Date, was_a_speaker: String, orderBy: EventOrderByInput): [Event]
   Announcement_Event(author: String, Subject: [String]) [Announcement_Event]
 
-  GetLinkedDataFragment(
-    subject: [Content]
-    predicate: [Content]
-    object: [Content]
-  ): [Content]
+  GetLinkedDataFragment(triple: [Triple]): [Content]
+}
+
+type Triple {
+	subject: String
+	object: String
+	predicate: String
 }
 
 type Mutation {
