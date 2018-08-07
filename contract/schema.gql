@@ -7,10 +7,11 @@ schema {
 type Query {
   Announcement_GET_BY_TYPE(type: [String]): [Announcement]
   Announcement_GET_BY_TITLE(title: [String]): [Announcement]
-  Department_GET_BY_NAME(name: [String]): [Department]
-  Event_GET_BY_COMMISSIONER(Subject: String, Event_date: Date, was_a_speaker: String, orderBy: EventOrderByInput): [Event]
   Announcement_Event_GET_BY_AUTHOR_OR_ORGANISER(was_organised: String, Author: String, Subject: [String], orderBy: TitleOrderByInput) [Announcement_Event]
   Announcement_Event_GET_BY_AVAILABLE_LANGUAGES(available_languages: [String], was_organised: String, Author: String, Subject: [String], orderBy: TitleOrderByInput) [Announcement_Event]
+  Department_GET_BY_NAME(name: [String]): [Department]
+  Event_GET_BY_COMMISSIONER(Subject: String, Event_date: Date, was_a_speaker: String, orderBy: EventOrderByInput): [Event]
+  
   GetLinkedDataFragment(triple: [Triple]): [Content]
 }
 
@@ -31,11 +32,11 @@ type Mutation {
 type Subscription {
   Announcement_SUB_BY_TYPE(type: [String]): [Announcement]
   Announcement_SUB_BY_TITLE(title: [String]): [Announcement]
+  Announcement_Event_SUB_BY_AUTHOR_OR_ORGANISER(was_organised: String, Author: String, Subject: [String], orderBy: TitleOrderByInput) [Announcement_Event]
+  Announcement_Event_SUB_BY_AVAILABLE_LANGUAGES(available_languages: [String], was_organised: String, Author: String, Subject: [String], orderBy: TitleOrderByInput) [Announcement_Event]
   Department_SUB_BY_NAME(name: [String]): [Department]
   Event_SUB_BY_COMMISSIONER(was_a_speaker: String, Subject: String, Event_date: Date, orderBy: EventOrderByInput): [Event]
-  Announcement_SUB_BY_AUTHOR_OR_ORGANISER(was_organised: String, Author: String, Subject: [String], orderBy: TitleOrderByInput) [Announcement_Event]
-  Announcement_Event_SUB_BY_AVAILABLE_LANGUAGES(available_languages: [String], was_organised: String, Author: String, Subject: [String], orderBy: TitleOrderByInput) [Announcement_Event]
-}
+  }
 
 # custom scalar - ISO8601 date format (2017–10–06T14:54:54+0)
 scalar DateTime
@@ -127,6 +128,7 @@ type Commissioner implements Content {
 
 type Department implements Content {
   # properties
+  Priorities: [String] @service(id: "local-pod-sparql")
   comment: [String] @service(id: "local-pod-sparql")
   description: [String] @service(id: "local-pod-sparql")
   label: [String] @service(id: "local-pod-sparql")
