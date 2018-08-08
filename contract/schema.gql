@@ -1,3 +1,6 @@
+# This is a draft for an API specs.
+# This draft is mixing/exploring various options
+
 schema {
   query: Query
   mutation: Mutation
@@ -5,56 +8,137 @@ schema {
 }
 
 type Query {
+
+  # HGQL allows for GET,GET_BY_URI requests on any declared type
+
+  # Known requests
   Department_GET_BY_NAME(name: [String]): [Department]
-  GetLinkedDataFragment(
-    subject: [Content]
-    predicate: [Content]
-    object: [Content]
+  Announcement_GET_BY_TITLE(title: [String]): [Announcement]
+  Announcement_Event_GET_BY_AUTHOR_OR_ORGANISER(
+    was_organised: String
+    Author: String
+    Subject: [String]
+    orderBy: {field:String, direction:Direction}
+  ): [Announcement_Event]
+  Content_GET(
+    type: [Content]
+    available_languages: [String]
+    was_organised: String
+    Author: String
+    Subject: [String]
+    orderBy: {field:String, direction:Direction}
   ): [Content]
+  Event_GET_BY_COMMISSIONER(
+    Subject: String
+    Event_date: Date
+    was_a_speaker: String
+    orderBy: {field:String, direction:Direction}
+  ): [Event]
+
+  # Endpoint to get LDF
+  GetLinkedDataFragment(triple: [Triple]): [Content]
+}
+
+type Triple {
+  subject: String
+  object: String
+  predicate: String
 }
 
 type Mutation {
-  Department: [Department]
+  # CrUD operation goes here
+  createContent(iri: iri!, input: ContentInput): Content
+  updateContent(iri: iri!, input: ContentInput): Content
 }
 
 type Subscription {
-  Department_SUB_BY_NAME(name: [String]): [Department]
+  subscribeToContent(
+    producer: String
+    schema: String
+  ): [Content]
 }
 
 # Hypergraphql context
 type __Context {
   # types
   Announcement: _ @href(iri: "http://schema.org/Article")
-  Content: _ @href(iri: "http://ec-europa.eu/ontologies/Content")
+  Commissioner: _ @href(iri: "http://schema.org/Person")
+  Department: _ @href(iri: "http://schema.org/GovernmentOrganization")
   Eurovoc: _ @href(iri: "http://ec-europa.eu/ontologies/Eurovoc")
   Event: _ @href(iri: "http://schema.org/Event")
-  Department: _ @href(iri: "http://schema.org/GovernmentOrganization")
 
   # properties
   comment: _ @href(iri: "http://www.w3.org/2000/01/rdf-schema#comment")
   label: _ @href(iri: "http://www.w3.org/2000/01/rdf-schema#label")
 }
 
+# needs refactor for Announcements
 interface Content {
   # properties
-  iri: String! @service(id: "local-pod-sparql")
-  label: [String] @service(id: "local-pod-sparql")
-  uuid: String! @service(id: "local-pod-sparql")
+  iri: String!
+  label: [String]
+  available_languages: [String]! @service(id: "local-pod-sparql")
 
   # edges
   is_tagged: [Content] @service(id: "local-pod-sparq")
   is_related: [Content] @service(id: "local-pod-sparql")
 }
 
+input ContentInput {
+  iri: String
+  label: String
+  available_languages: String
+}
+
+type Announcement implements Content {
+  # properties
+  Title: String! @service(id: "local-pod-sparql")
+  Announcement_type: String! @service(id: "local-pod-sparql")
+  Body: String! @service(id: "local-pod-sparql")
+  Description: String! @service(id: "local-pod-sparql")
+  First_published_on: DateTime! @service(id: "local-pod-sparql")
+  Introduction: String! @service(id: "local-pod-sparql")
+  Location: String! @service(id: "local-pod-sparql")
+  Related_content: String! @service(id: "local-pod-sparql")
+  Author: String! @service(id: "local-pod-sparql")
+  # refers rdf:resource="https://schema.org/authorJRC" non-existent
+  Responsible_department: Department @service(id: "local-pod-sparql")
+  # refers to rdf:resource="http://publications.europa.eu/resource/authority/corporate-body/RTD" non-existent
+  Subject_from_Digital_Europa_Thesaurus: String!
+    @service(id: "local-pod-sparql")
+  label: [String] @service(id: "local-pod-sparql")
+  iri: String! @service(id: "local-pod-sparql")
+  available_languages: [String]! @service(id: "local-pod-sparql")
+
+  # edges
+  was_organised: [Department] @service(id: "local-pod-sparq")
+  is_tagged: [Eurovoc] @service(id: "local-pod-sparq")
+  is_related: [Content] @service(id: "local-pod-sparql")
+}
+
+type Commissioner implements Content {
+  # properties
+  Name: String! @service(id: "local-pod-sparql")
+  iri: String! @service(id: "eurovoc-sparql")
+  label: [String] @service(id: "eurovoc-sparql")
+  available_languages: [String]! @service(id: "local-pod-sparql")
+
+  # edges
+  was_a_speaker: [Event] @service(id: "local-pod-sparq")
+  is_tagged: [Eurovoc] @service(id: "local-pod-sparq")
+  is_related: [Content] @service(id: "local-pod-sparql")
+}
+
 type Department implements Content {
   # properties
+  Priorities: [String] @service(id: "local-pod-sparql")
   comment: [String] @service(id: "local-pod-sparql")
   description: [String] @service(id: "local-pod-sparql")
   label: [String] @service(id: "local-pod-sparql")
-  postDate: String! @service(id: "local-pod-sparqll")
-  title: String! @service(id: "local-pod-sparqll")
-  uuid: String! @service(id: "local-pod-sparql")
+  postDate: String! @service(id: "local-pod-sparql")
+  title: String! @service(id: "local-pod-sparql")
   iri: String! @service(id: "local-pod-sparql")
+  available_languages: [String]! @service(id: "local-pod-sparql")
 
   # edges
   is_tagged: [Eurovoc] @service(id: "local-pod-sparq")
@@ -66,9 +150,38 @@ type Eurovoc implements Content {
   iri: String! @service(id: "eurovoc-sparql")
   label: [String] @service(id: "eurovoc-sparql")
   name: String! @service(id: "eurovoc-sparql")
-  uuid: String! @service(id: "eurovoc-sparql")
+  available_languages: [String]! @service(id: "local-pod-sparql")
 
   # edges
   is_tagged: [Content] @service(id: "local-pod-sparql")
   is_related: [Content] @service(id: "local-pod-sparql")
 }
+
+type Event implements Content {
+  # properties
+  Name: String! @service(id: "local-pod-sparql")
+  Title: String! @service(id: "local-pod-sparql")
+  Event_date: DateTime! @service(id: "local-pod-sparql")
+  Subject: String! @service(id: "local-pod-sparql")
+  Author: String! @service(id: "local-pod-sparql")
+  iri: String! @service(id: "eurovoc-sparql")
+  label: [String] @service(id: "eurovoc-sparql")
+  available_languages: [String]! @service(id: "local-pod-sparql")
+
+  # edges
+  was_a_speaker: [Commissioner] @service(id: "local-pod-sparq")
+  was_organised: [Department] @service(id: "local-pod-sparq")
+  is_tagged: [Content] @service(id: "local-pod-sparq")
+  is_related: [Content] @service(id: "local-pod-sparql")
+}
+
+
+# custom scalar - ISO8601 date format (2017–10–06T14:54:54+0)
+scalar DateTime
+union Announcement_Event = Announcement | Event
+
+enum Direction {
+  ASC
+  DESC
+}
+
