@@ -28,6 +28,21 @@ type Query {
     Subject: [String]
     orderBy: {field:String, direction:Direction}
   ): [Content]
+  Department_GET_BY_SUBJECTS(
+    Subject: [String]
+    was_organised: String
+    event_type: String
+    subject: [String]
+    Date: DateTime
+    orderBy: {field:String, direction:Direction}
+  ): [Department] 
+  Department_GET_BY_PRIORITY(
+    Priorities: [String]
+    Responsabilities: [String]
+    was_organised: String
+    Date: DateTime
+    orderBy: {field:String, direction:Direction}
+  ): [Department] 
   Event_GET_BY_COMMISSIONER(
     Subject: String
     Event_date: Date
@@ -132,6 +147,7 @@ type Commissioner implements Content {
 type Department implements Content {
   # properties
   Priorities: [String] @service(id: "local-pod-sparql")
+  Responsabilities: [String] @service(id: "local-pod-sparql")
   comment: [String] @service(id: "local-pod-sparql")
   description: [String] @service(id: "local-pod-sparql")
   label: [String] @service(id: "local-pod-sparql")
