@@ -1,3 +1,6 @@
+# This is a draft for an API specs.
+# This draft is mixing/exploring various options
+
 schema {
   query: Query
   mutation: Mutation
@@ -5,12 +8,17 @@ schema {
 }
 
 type Query {
+
+  # HGQL allows for GET,GET_BY_URI requests on any declared type
+
+  # Known requests
+  Department_GET_BY_NAME(name: [String]): [Department]
   Announcement_GET_BY_TITLE(title: [String]): [Announcement]
   Announcement_Event_GET_BY_AUTHOR_OR_ORGANISER(
     was_organised: String
     Author: String
     Subject: [String]
-    orderBy: OrderBy
+    orderBy: {field:String, direction:Direction}
   ): [Announcement_Event]
   Content_GET(
     type: [Content]
@@ -18,19 +26,17 @@ type Query {
     was_organised: String
     Author: String
     Subject: [String]
-    orderBy: OrderBy
+    orderBy: {field:String, direction:Direction}
   ): [Content]
-  Department_GET_BY_NAME(name: [String]): [Department]
   Event_GET_BY_COMMISSIONER(
     Subject: String
     Event_date: Date
     was_a_speaker: String
-    orderBy: OrderBy
+    orderBy: {field:String, direction:Direction}
   ): [Event]
 
   # Endpoint to get LDF
   GetLinkedDataFragment(triple: [Triple]): [Content]
-
 }
 
 type Triple {
@@ -41,25 +47,15 @@ type Triple {
 
 type Mutation {
   # CrUD operation goes here
+  createContent(iri: iri!, input: ContentInput): Content
+  updateContent(iri: iri!, input: ContentInput): Content
 }
 
 type Subscription {
-  Announcement_SUB_BY_TYPE(type: [String]): [Announcement]
-  Event_SUB_BY_COMMISSIONER(
-    was_a_speaker: String
-    Subject: String
-    Event_date: Date
-    orderBy: OrderBy
-  ): [Event]
-}
-
-# custom scalar - ISO8601 date format (2017–10–06T14:54:54+0)
-scalar DateTime
-union Announcement_Event = Announcement | Event
-
-enum OrderBy {
-  ASC
-  DESC
+  subscribeToContent(
+    producer: String
+    schema: String
+  ): [Content]
 }
 
 # Hypergraphql context
@@ -86,6 +82,12 @@ interface Content {
   # edges
   is_tagged: [Content] @service(id: "local-pod-sparq")
   is_related: [Content] @service(id: "local-pod-sparql")
+}
+
+input ContentInput {
+  iri: String
+  label: String
+  available_languages: String
 }
 
 type Announcement implements Content {
@@ -172,3 +174,14 @@ type Event implements Content {
   is_tagged: [Content] @service(id: "local-pod-sparq")
   is_related: [Content] @service(id: "local-pod-sparql")
 }
+
+
+# custom scalar - ISO8601 date format (2017–10–06T14:54:54+0)
+scalar DateTime
+union Announcement_Event = Announcement | Event
+
+enum Direction {
+  ASC
+  DESC
+}
+

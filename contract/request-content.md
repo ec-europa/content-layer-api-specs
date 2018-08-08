@@ -18,10 +18,8 @@
   {
     GetLinkedDataFragment($triples){
       // properties
-      _id
-      _type
       name(lang:"en")
-      description
+      description(lang:"en")
     }
   }
 ```
