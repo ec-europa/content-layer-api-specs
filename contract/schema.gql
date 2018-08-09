@@ -62,8 +62,8 @@ type Triple {
 
 type Mutation {
   # CrUD operation goes here
-  createContent(iri: iri!, input: ContentInput): Content
-  updateContent(iri: iri!, input: ContentInput): Content
+  createContent(input: [Triple]): Content
+  updateContent(input: [Triple]): Content
 }
 
 type Subscription {
@@ -97,12 +97,6 @@ interface Content {
   # edges
   is_tagged: [Content] @service(id: "local-pod-sparq")
   is_related: [Content] @service(id: "local-pod-sparql")
-}
-
-input ContentInput {
-  iri: String
-  label: String
-  available_languages: String
 }
 
 type Announcement implements Content {
